@@ -2,7 +2,8 @@
 // sprawdzić czy wysłaiśmy POST
 //połączenie z db
 // sprawdzić czy user istnieje
-echo "<pre>" . var_dump($_POST) . "</pre>";
+// echo "<pre>" . var_dump($_POST) . "</pre>";
+
 if(isset($_POST["input-email"]) && isset($_POST["input-password"]) ){
     $db = @new mysqli("localhost","root","","logowanie");
     mysqli_set_charset($db, "utf8");
