@@ -7,6 +7,7 @@
 if(isset($_POST["input-email"]) && isset($_POST["input-password"]) ){
     $db = @new mysqli("localhost","root","","logowanie");
     mysqli_set_charset($db, "utf8");
+
     if($db->connect_errno!=0){
         echo "Error: ".$db->connect_errno." Opis ".$db->connect_errno;
     }
@@ -15,14 +16,23 @@ if(isset($_POST["input-email"]) && isset($_POST["input-password"]) ){
         $haslo = $_POST['input-password'];
     }
 
-    $sql = "INSERT INTO users (haslo, login ) VALUES ('$haslo', '$login')";
 
-    if(mysqli_query($db, $sql)){
-    echo "Udało się dodać rekordy do bazy danych";
-    }  
-    else{
-    echo "ERROR: $sql. " . mysqli_error($db);
+    $sql = "SELECT * FROM users WHERE login = '$login' AND haslo = '$haslo'";
+
+    $wynik = $db->query($sql);
+
+    $ile  = $wynik ->num_rows;
+    if ($ile==1){
+        $wiersz = $wynik-> fetch_assoc();
+        $user = $wiersz['imie'];
+        echo "Pomyślnie zalogowano, witaj ".$user;
     }
+
+    else{
+        echo "Błąd logowania, nie znaleziono takiego usera w bazie!";
+    }
+
+
     mysqli_close($db);
 }
 
